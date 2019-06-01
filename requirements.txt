@@ -1,0 +1,9 @@
+tqdm
+keras
+tensorflow
+nltk
+scikit-learn
+json
+matplotlib
+csv
+pandas
