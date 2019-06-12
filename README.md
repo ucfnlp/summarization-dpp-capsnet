@@ -17,17 +17,21 @@ This code is developed with the following environment:
 - [Tensorflow 1.12.0 backend](https://www.tensorflow.org/install)
 - `pip install -r requirements.txt`
 
-## Set up directory for work
+
+## Train and evaluate on the CNN/DM summary pair dataset
+### Set up directory for training/testing data
 ```
 $ git clone https://github.com/sangwoo3/summarization-dpp-capsnet.git & cd summarization-dpp-capsnet
 $ mkdir data & cd data
 ```
 
-## Train and evaluate on the CNN/DM summary pair dataset
 ### Download the data
-1. Download CNN/DM summary pair dataset from [HERE](https://drive.google.com/file/d/1GyvIHzoTat0xSZsdYJjocLji4eNnQ6NW/view?usp=sharing) and extract it under `/data` directory (This dataset is pre-processed with 50k prevailing vocabularies in CNN/DM and zipped into train, validation, and test set.)
+1. Download CNN/DM summary pair dataset from [HERE](https://drive.google.com/file/d/1GyvIHzoTat0xSZsdYJjocLji4eNnQ6NW/view?usp=sharing) and extract it under `/data` directory 
+   * This summary dataset is pre-processed with 50k prevailing vocabularies in CNN/DM summary pair dataset. The label is 1 for a positive pair sentence, and 0 for a negative pair. The positive pair is a pair of a summary sentence and its most similar sentence in the source document that leads to the largest Rouge scores. The negative pair is a pair of the same summary sentence and a random sentence in the same document.
 2. Download Glove word vectors of 50k vocabulary from [HERE](https://drive.google.com/file/d/1IpVT7LQ73_yqPYHaHHIAJ2iWPva0x2Uv/view?usp=sharing) and place it under `/data` directory
-3. If you look for the raw CNN/DM summary pair dataset, download from [HERE](https://drive.google.com/file/d/1_c4AqnEct0HMg0VOWqupcO0_ijn-fJb0/view?usp=sharing). (This data is pre-processed with the `preprocess.py` file.)
+   * 6B tokens, 300d  Glove word vectors are used [LINK](http://nlp.stanford.edu/data/glove.6B.zip)
+3. If you want raw CNN/DM summary dataset, download from [HERE](https://drive.google.com/file/d/1_c4AqnEct0HMg0VOWqupcO0_ijn-fJb0/view?usp=sharing). 
+   * This data contains candiate summary sentences for each document. The data is pre-processed with the `preprocess.py` file to generate the above CNN/DM summary pair dataset.)
 
 ### Training
 `$ python main_Capsnet.py`
@@ -39,16 +43,18 @@ $ mkdir data & cd data
 `$ python main_Capsnet.py --testing --test_mode STS`
 
 ### Pre-trained Model
-- Download the model from [HERE](https://drive.google.com/file/d/11-Bc_BhBFRDTUWhM3ihiCm385GGkGWzZ/view?usp=sharing) and place it under `/result/capnet_sim` directory (or your assigned training result folder)
-- Download the model fine-tuned on STS dataset from [HERE](https://drive.google.com/file/d/1LR6MncA2ViNVQqcMxxFR6fAYMUaoA6Rs/view?usp=sharing) (This model is used to evaluate STS prediction accuracy.)
+- Download the pre-trained model from [HERE](https://drive.google.com/file/d/11-Bc_BhBFRDTUWhM3ihiCm385GGkGWzZ/view?usp=sharing) and place it under `/result/capnet_sim` directory 
+  - `/result/capnet_sim` is a default directory for training results
+- Download the model fine-tuned on STS dataset from [HERE](https://drive.google.com/file/d/1LR6MncA2ViNVQqcMxxFR6fAYMUaoA6Rs/view?usp=sharing) 
+  - This model is trained on CNN/DM summary pair dataset and then fine-tuned on STS.
+  - It can be used to evaluate STS prediction accuracy.
 
 
 ### System summary
-We provide our best system summaries of DUC04 and TAC11 generated with DPP in the `system_summary` directory.
-You can refer to [DPP](https://www.alexkulesza.com/) code and download [DUC 03/04](https://duc.nist.gov/) and [TAC 08/09/10/11](https://tac.nist.gov/data/index.html) dataset with approval.
+We provide our best system summaries of DUC04 and TAC11. They are generated with DPP and in the `system_summary` directory.
+For DPP and multi-document dataset, we do not provide the code and dataset due to license. Please refer to [DPP](https://www.alexkulesza.com/) code and download [DUC 03/04](https://duc.nist.gov/) and [TAC 08/09/10/11](https://tac.nist.gov/data/index.html) dataset with your request and approval.
 
 ## License
-
 This project is licensed under the BSD License - see the [LICENSE.md](LICENSE.md) file for details.
 
 
