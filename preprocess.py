@@ -835,8 +835,8 @@ if __name__ == '__main__':
     # not used for unified
     parser.add_argument('--save_dir',       default='data_voca50k_100d/',    help='Save directory of data',      type=str)
     parser.add_argument('--word_vec_load_path', default=None,   help='Path to load word vectors',           type=str)    
-    parser.add_argument('--word_vec_save_path', default='data/word-vectors_voca50k_100d_unified.npy', help='Path to save vectors', type=str)
-    parser.add_argument('--word2id_save_path',  default='data/word2id_voca50k_100d_unified.pkl', help='Path to save word2id',    type=str)
+    parser.add_argument('--word_vec_save_path', default='data/word-vectors_voca50k_300d_unified.npy', help='Path to save vectors', type=str)
+    parser.add_argument('--word2id_save_path',  default='data/word2id_voca50k_300d_unified.pkl', help='Path to save word2id',    type=str)
     
     
     parser.add_argument('--data_root_dir',  default='data/',    help='data directory',                      type=str)

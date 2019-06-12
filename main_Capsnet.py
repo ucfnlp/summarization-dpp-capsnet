@@ -42,8 +42,7 @@ def generate_batch(data, batch_size, shuffle=False):
         num_batches = size // batch_size
         if size % batch_size != 0:
             num_batches += 1
-        for bid in range(num_batches):
-            # loop once per batch            
+        for bid in range(num_batches):                   
             batch_index = indices[bid * batch_size : min((bid + 1) * batch_size, size)]
             
             x_p, x_h, y_labels, y_dec_p, y_dec_h = [], [], [], [], []
@@ -60,16 +59,7 @@ def generate_batch(data, batch_size, shuffle=False):
             X_h = np.array(x_h, dtype='int32', copy=False)
             Y = np.array(y_labels, dtype='int32', copy=False)
             Y_p = np.array(y_dec_p, copy=False)
-            Y_h = np.array(y_dec_h, copy=False)
-            
-#            print (type(X_p[0][0]))    # <type 'numpy.int32'>
-#            print (type(X_h[0][0]))    # <type 'numpy.int32'>
-#            print (type(Y[0]))         # <type 'numpy.int32'>
-#            print (X_p.shape)   # (None, 44)
-#            print (X_h.shape)   # (None, 44)
-#            print (Y.shape)     # (None,)
-#            print (Y_p.shape)   # (None, 44, 50004)
-#            print (Y_h.shape)   # (None, 44, 50004)
+            Y_h = np.array(y_dec_h, copy=False)            
             
             yield ([X_p, X_h], [Y, Y_p, Y_h])
 
@@ -131,7 +121,6 @@ def generate_batch_from_data(x_data, y_data, batch_size, voca_size, shuffle=Fals
 
 
 def train(model, data, save_folder, args):    
-    # {'entailment': 183416, 'neutral': 182764, '-': 785, 'contradiction': 183187}
     # train_data: (N, 44)  (N, 44)  (N, 3)
     (train_data, test_data) = data    
     
@@ -344,9 +333,9 @@ if __name__ == "__main__":
                         help="set to load a given weigths no matter what")
     parser.add_argument('--initial_epoch',      default=0,              type=int,
                         help='initial epoch for resuming training (0-index)')
-    parser.add_argument('--testing',            default=True, 
+    parser.add_argument('--testing',            default=False,           action='store_true',
                         help="Test the trained model on testing dataset; set to False when Training")
-    parser.add_argument('--weights',            default='weights-06.h5',
+    parser.add_argument('--weights',            default='trained_model.h5',
                         help="Trained weights to be loaded. Should be specified when testing")
     parser.add_argument('--test_mode',          default='pred', # pred, sents, STS, DUC, TAC
                         help="Test mode: pred-prediction for a given dataset, sents-prediction of two sentence similarity, STS-prediction for STS dataset, DUC/TAC-similarity prediction for pair sentences in DUC/TAC dataset")
@@ -426,7 +415,7 @@ if __name__ == "__main__":
     
     ''' Load model '''
     word2vec_path = os.path.join(args.load_dir, 'word-vectors_'+voca_name+'_unified.npy')
-    word_embedding_weights = np.load(word2vec_path) #args.word_vec_path)
+    word_embedding_weights = np.load(word2vec_path)
     print ('word vectors loaded from [{}]'.format(word2vec_path))
     
     if not args.testing:
@@ -442,7 +431,7 @@ if __name__ == "__main__":
                       lr=args.lr, dr_rate=args.dr_rate,
                       voca_size=args.voca_size, lstm_layer_num=args.lstm_layer_num, lstm_hidden_unit=args.lstm_hidden_unit,
                       draw_summary_network=draw_summary_network)
-    net()   # call __call__    
+    net()
     model = net.model    
     pred_model = net.pred_model
     plot_model(model, to_file='{}/{}.pdf'.format(save_folder, folder_name), show_shapes=True)    

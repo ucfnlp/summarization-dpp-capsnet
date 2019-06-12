@@ -1,6 +1,5 @@
 from tqdm import tqdm
 import glob
-#from data import example_generator    # The module "data" is from Abigail See's code
 import json
 import numpy as np
 
@@ -8,7 +7,6 @@ import random
 import struct
 from tensorflow.core.example import example_pb2
 from keras.preprocessing.sequence import pad_sequences
-#from keras.utils import np_utils
 
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
@@ -267,7 +265,6 @@ if __name__ == '__main__':
     
     cnn_dm = cnn_dm_data(42)
     paths = [('test', source_dir), ('train', source_dir), ('val', source_dir)]
-#    paths = [('train', source_dir)]
     cnn_dm.gen_all_pairs(paths)
 #    cnn_dm.get_all_words()
   
